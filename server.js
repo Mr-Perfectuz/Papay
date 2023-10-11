@@ -1,9 +1,11 @@
+const dotenv = require("dotenv");
+dotenv.config();
+
 const http = require("http");
 const mongodb = require("mongodb");
 
 let db;
-const connectionString =
-  "mongodb+srv://ziyodovanvar1999:v16c41PgWTNhPSWz@mit.kpqoeyc.mongodb.net/Reja";
+const connectionString = process.env.MONGO_URL;
 
 mongodb.connect(
   connectionString,
