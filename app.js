@@ -1,6 +1,7 @@
 console.log("Web Serverni boshlash");
 const express = require("express");
 const app = express();
+const router = require("./router");
 
 // MongDB chaqirish
 const db = require("./server").db();
@@ -22,3 +23,8 @@ app.use(express.urlencoded({ extended: true }));
 // ejs orqali backend ni ichida frontend ni yashash
 app.set("views", "views");
 app.set("view engine", "ejs");
+
+// 4 Routing code
+app.use("/", router);
+
+module.exports = app;
