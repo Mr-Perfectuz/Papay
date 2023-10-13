@@ -2,23 +2,22 @@ const dotenv = require("dotenv");
 dotenv.config();
 
 const http = require("http");
-const mongodb = require("mongodb");
+const mongoose = require("mongoose");
 
-let db;
+mongoose.set("strictQuery", false);
 const connectionString = process.env.MONGO_URL;
 
-mongodb.connect(
+mongoose.connect(
   connectionString,
   {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   },
-  (err, client) => {
+  (err, goose) => {
     if (err) console.log("Error on connection MongoDb");
     else {
       console.log("MongoDB connection succeed");
-      module.exports = client;
-      // console.log(client);
+      // console.log(goose);
       const app = require("./app");
       const server = http.createServer(app);
 
