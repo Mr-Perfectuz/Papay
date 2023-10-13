@@ -34,11 +34,11 @@ const memberSchema = new mongoose.Schema({
       message: "{VALUE} is not permitted values",
     },
   },
-  mb_full_name: {
-    type: String,
-    required: true,
-  },
   mb_adress: {
+    type: String,
+    required: false,
+  },
+  mb_description: {
     type: String,
     required: false,
   },
@@ -51,6 +51,36 @@ const memberSchema = new mongoose.Schema({
     required: false,
     default: 0,
   },
+  mb_top: {
+    type: String,
+    required: false,
+    default: "N",
+    enum: {
+      value: ordinary_enums,
+      message: "{VALUE} is not permitted values",
+    },
+  },
+  mb_views: {
+    type: Number,
+    required: false,
+    default: 0,
+  },
+  mb_likes: {
+    type: Number,
+    required: false,
+    default: 0,
+  },
+  mb_follow_cnt: {
+    type: Number,
+    required: false,
+    default: 0,
+  },
+  mb_subscriber_cnt: {
+    type: Number,
+    required: false,
+    default: 0,
+  },
+   {timestamps: true}
 });
 
 module.exports = mongoose.model("Member", memberSchema);
