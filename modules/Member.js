@@ -8,15 +8,14 @@ class Member {
   async signupData(input) {
     try {
       const new_member = new this.memberModel(input);
+      let result;
 
       try {
-        const result = await new_member.save();
+        result = await new_member.save();
       } catch (mongo_error) {
         throw new Error(Definer.auth_err1);
       }
-
-      const result = await new_member.save();
-
+      result.mb_password = "";
       return result;
     } catch (err) {
       throw err;

@@ -9,9 +9,9 @@ memberController.signup = async (req, res) => {
     console.log("bodu::", req.body);
     const member = new Member();
     const new_member = await member.signupData(data);
-    res.send("done");
+    res.json({ state: "succeed", data: new_member });
   } catch (err) {
-    console.log("ERROR, cont/signup", err);
+    res.json({ state: "failed", message: err });
   }
 };
 memberController.login = (req, res) => {
