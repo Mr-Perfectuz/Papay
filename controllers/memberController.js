@@ -10,7 +10,8 @@ memberController.signup = async (req, res) => {
     (member = new Member()), (new_member = await member.signupData(data));
     res.json({ state: "succeed", data: new_member });
   } catch (err) {
-    res.json({ state: "failed", message: err });
+    res.json({ state: "failed", message: err.message });
+    console.log(err.message);
   }
 };
 memberController.login = async (req, res) => {
