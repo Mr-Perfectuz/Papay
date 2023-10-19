@@ -39,6 +39,7 @@ restaurantController.loginProcess = async (req, res) => {
   try {
     console.log("POST: cont/login");
     const data = req.body;
+    console.log(req);
     console.log("body::", req.body),
       (member = new Member()),
       (result = await member.loginDate(data));
