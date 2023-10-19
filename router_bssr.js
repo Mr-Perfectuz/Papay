@@ -9,7 +9,7 @@ const restaurantController = require("./controllers/restaurantController");
 router_bssr.get("/signup", restaurantController.getSignupMyRestaurant);
 router_bssr.post("/signup", restaurantController.signupProcess);
 
-router_bssr.get("/login", restaurantController.login);
+router_bssr.get("/login", restaurantController.loginProcess);
 router_bssr.post("/login", restaurantController.loginProcess);
 
 router_bssr.get("/logout", restaurantController.logout);
