@@ -1,0 +1,12 @@
+<%- include('includes/header') %>
+<body>
+  <h1>My Restaurant page</h1>
+  <% if(!member) { %>
+    <h2>You are not authenticated</h2>
+  <% } else { %>
+    <h3>You are authenticated  </h3>
+    <% } %>
+
+</body>
+
+<%- include('includes/footer') %>
