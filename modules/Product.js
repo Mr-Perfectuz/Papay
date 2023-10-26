@@ -21,6 +21,28 @@ class Product {
       throw error;
     }
   }
+
+  async updateChosenProductData(id, updated_data, mb_id) {
+    try {
+      id = shapeIntoMongoseObjectIdn(id);
+      mb_id = shapeIntoMongoseObjectIdn(mb_id);
+      const result = this.productModel
+        .findByIdAndUpdate(
+          {
+            _id: id,
+            restaurant_mb_id: mb_id,
+          },
+          updated_data,
+          { runValidators: true, lean: true, returnDocument: "after" }
+        )
+        .exec();
+
+      assert.ok(result, Definer.general_err1);
+      return result;
+    } catch (error) {
+      throw error;
+    }
+  }
 }
 
 module.exports = Product;
