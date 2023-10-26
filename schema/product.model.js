@@ -69,12 +69,10 @@ const productSchema = new mongoose.Schema(
     product_description: {
       type: String,
       required: true,
-      default: [],
     },
     product_images: {
-      type: Number,
+      type: Array,
       required: false,
-      default: [],
     },
     producta_likes: {
       type: Number,
