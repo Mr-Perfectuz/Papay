@@ -8,19 +8,18 @@ class Product {
     this.productModel = ProductModel;
   }
 
-  // async getAllProductDataResto(member) {
-  //   try {
-  //     member._id = shapeIntoMongoseObjectIdn(member._id);
-  //     const result = await this.productModel.find({
-  //       restaurant_mb_id: member._id,
-  //     });
-  //     assert.ok(result, Definer.general_err1);
-  //     console.log(result);
-  //     return result;
-  //   } catch (error) {
-  //     throw error;
-  //   }
-  // }
+  async getAllProductDataResto(member) {
+    try {
+      member._id = shapeIntoMongoseObjectIdn(member._id);
+      const result = await this.productModel.find({
+        restaurant_mb_id: member._id,
+      });
+      assert.ok(result, Definer.general_err1);
+      return result;
+    } catch (error) {
+      throw error;
+    }
+  }
 
   async addNewProductData(data, member) {
     try {

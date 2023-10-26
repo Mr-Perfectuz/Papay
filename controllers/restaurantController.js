@@ -6,11 +6,10 @@ let restaurantController = module.exports;
 restaurantController.getMyRestaurantProducts = async (req, res) => {
   try {
     console.log("GET: cont/getMyRestaurantProducts ");
-    // TODO Get my restaurant products
-    // const product = new Product();
-    // const data = await product.getAllProductDataResto(res.locals.member);
-    res.render("restaurant-menu", { member: new_member });
-    // res.render("restaurant-menu", { restaurant_data: data });
+    const product = new Product();
+    const data = await product.getAllProductDataResto(res.locals.member);
+    console.log(data);
+    res.render("restaurant-menu", { restaurant_data: data });
   } catch (err) {
     res.json({ state: "failed", message: err.message });
     console.log("ERROR, cont/getMyRestaurantProducts", err.message);
