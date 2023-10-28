@@ -7,11 +7,13 @@ const productController = require("./controllers/productController");
 const uploader_product = require("./utils/uploadMulter");
 const productUploader = uploader_product("products");
 
-/*           BSSR EJS     */
-
+/*******************
+ *    BSSR EJS  *
+ * *************** */
+router_bssr.get("/", restaurantController.home);
 router_bssr
-  .get("/signup", restaurantController.getSignupMyRestaurant)
-  .post("/signup", restaurantController.signupProcess);
+  .get("/sign-up", restaurantController.getSignupMyRestaurant)
+  .post("/sign-up", restaurantController.signupProcess);
 
 router_bssr
   .get("/login", restaurantController.getLoginMyRestaurant)

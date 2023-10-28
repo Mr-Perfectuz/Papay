@@ -3,6 +3,16 @@ const Product = require("../modules/Product");
 
 let restaurantController = module.exports;
 
+restaurantController.home = (req, res) => {
+  try {
+    console.log("GET: cont/home ");
+    res.render("home-page");
+  } catch (err) {
+    res.json({ state: "ERROR", message: err.message });
+    console.log("fail, cont/home", err.message);
+  }
+};
+
 restaurantController.getMyRestaurantProducts = async (req, res) => {
   try {
     console.log("GET: cont/getMyRestaurantProducts ");
