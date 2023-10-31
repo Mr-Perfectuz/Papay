@@ -47,8 +47,7 @@
 
     <div>
       <div class="animation-wrapper">
-        <div class="sphere-animation"style="">
-
+        <div class="sphere-animation">
 
           <svg class="sphere" viewBox="0 0 440 440" stroke="rgba(80,80,80,.35)">
             <defs>
@@ -87,35 +86,37 @@
     </div>
     <script>
 function fitElementToParent(el, padding) {
-  var timeout = null;
+  let timeout = null;
   function resize() {
     if (timeout) clearTimeout(timeout);
-    anime.set(el, {scale: 1});
-    var pad = padding || 0;
-    var parentEl = el.parentNode;
-    var elOffsetWidth = el.offsetWidth - pad;
-    var parentOffsetWidth = parentEl.offsetWidth;
-    var ratio = parentOffsetWidth / elOffsetWidth;
-    timeout = setTimeout(anime.set(el, {scale: ratio}), 10);
+    let pad = padding || 0;
+    let parentEl = el.parentNode;
+    let elOffsetWidth = el.offsetWidth - pad;
+    let parentOffsetWidth = parentEl.offsetWidth;
+    let ratio = parentOffsetWidth / elOffsetWidth;
+    timeout = setTimeout(function () {
+      anime.set(el, { scale: ratio });
+    }, 10);
   }
   resize();
   window.addEventListener('resize', resize);
 }
 
-var sphereAnimation = (function() {
+let sphereAnimation = (function() {
 
   let sphereEl = document.querySelector('.sphere-animation');
   let spherePathEls = sphereEl.querySelectorAll('.sphere path');
   let pathLength = spherePathEls.length;
   let hasStarted = false;
-  let aimations = [];
+  let animations = [];
 
+  // Set the initial size and center the sphere
   fitElementToParent(sphereEl);
 
-  var breathAnimation = anime({
+  let breathAnimation = anime({
     begin: function() {
-      for (var i = 0; i < pathLength; i++) {
-        aimations.push(anime({
+      for (let i = 0; i < pathLength; i++) {
+        animations.push(anime({
           targets: spherePathEls[i],
           stroke: {value: ['rgba(255,75,75,1)', 'rgba(80,80,80,.35)'], duration: 500},
           translateX: [2, -4],
@@ -126,8 +127,8 @@ var sphereAnimation = (function() {
       }
     },
     update: function(ins) {
-      aimations.forEach(function(animation, i) {
-        var percent = (1 - Math.sin((i * .35) + (.0022 * ins.currentTime))) / 2;
+      animations.forEach(function(animation, i) {
+        let percent = (1 - Math.sin((i * .35) + (.0022 * ins.currentTime))) / 2;
         animation.seek(animation.duration * percent);
       });
     },
@@ -135,7 +136,7 @@ var sphereAnimation = (function() {
     autoplay: false
   });
 
-  var introAnimation = anime.timeline({
+  let introAnimation = anime.timeline({
     autoplay: false
   })
   .add({
@@ -151,7 +152,7 @@ var sphereAnimation = (function() {
     easing: 'linear'
   }, 0);
 
-  var shadowAnimation = anime({
+  let shadowAnimation = anime({
       targets: '#sphereGradient',
       x1: '25%',
       x2: '25%',
@@ -171,6 +172,8 @@ var sphereAnimation = (function() {
   init();
 
 })();
+
+
     </script>
 </body>
 
