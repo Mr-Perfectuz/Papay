@@ -210,6 +210,7 @@ body {
 .filebox {
   margin-top: 25px;
   display: flex;
+  border-radius: 10px;
 }
 
 .filebox input[type="file"] {
@@ -228,7 +229,7 @@ body {
   justify-content: center;
   align-items: center;
   background: #6a7a99;
-  border-radius: 0px, 0px, 0px, 0px;
+  border-radius: 0px 10px 10px 0px;
 
   font-family: "GT Walshein Pro";
   font-style: normal;
@@ -236,6 +237,10 @@ body {
   font-size: 15px;
   line-height: 26px;
   color: #fff;
+  cursor: pointer;
+}
+.filebox label:hover {
+  opacity: 0.8;
 }
 .filebox .upload_name {
   position: relative;
@@ -245,7 +250,7 @@ body {
   display: flex;
   background: #dddddd;
   border: 1px solid #dddddd;
-  border-radius: 8px, 0px, 0px, 8px;
+  border-radius: 10px 0px 0px 10px;
 }
 
 .thumbnail_desc {
