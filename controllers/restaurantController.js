@@ -78,11 +78,9 @@ restaurantController.loginProcess = async (req, res) => {
 
     req.session.member = result;
     req.session.save(function () {
-      // result.mb_type === "ADMIN"
-      //   ? res.redirect("/resto/all-restaurant")
-      //   : res.redirect("/resto/products/menu");
-      // res.redirect("/resto/products/menu");
-      res.redirect("/resto/products/menu");
+      result.mb_type === "ADMIN"
+        ? res.redirect("/resto/all-restaurant")
+        : res.redirect("/resto/products/menu");
     });
   } catch (err) {
     console.log("ERROR: cont/loginProcess", err.message);
@@ -91,8 +89,15 @@ restaurantController.loginProcess = async (req, res) => {
 };
 
 restaurantController.logout = (req, res) => {
-  console.log(" GET cont.logout");
-  res.send("logout sahifasidasiz");
+  try {
+    console.log(" GET cont/logout");
+    req.session.destroy(function () {
+      res.redirect("/resto");
+    });
+  } catch (error) {
+    console.log("ERROR: cont/logout", err.message);
+    res.json({ state: "failed", message: err.message });
+  }
 };
 
 restaurantController.validateAuthRestaurant = (req, res, next) => {
