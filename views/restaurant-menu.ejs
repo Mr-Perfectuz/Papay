@@ -48,6 +48,7 @@
               <select class="spec_select new_product_status" name="" id="<%= value._id %>">
                 <option value="PAUSED" <%= value.product_status === "PAUSED" ? "selected" : '' %> > PAUSED</option>
                 <option value="PROCESS" <%= value.product_status === "PROCESS" ? "selected" : '' %> > PROCESS</option>
+                <option value="DELETED" <%= value.product_status === "DELETED" ? "selected" : '' %> > DELETED</option>
               </select>
             </td>
           </tbody>
