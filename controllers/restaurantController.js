@@ -1,6 +1,7 @@
 const assert = require("assert");
 const Member = require("../modules/Member");
 const Product = require("../modules/Product");
+const Restaurant = require("../modules/Restaurant");
 const Definer = require("../lib/mistake");
 
 let restaurantController = module.exports;
@@ -111,17 +112,6 @@ restaurantController.validateAuthRestaurant = (req, res, next) => {
     });
   }
 };
-restaurantController.validateAdmin = (req, res, next) => {
-  if (req.session?.member?.mb_type === "ADMIN") {
-    req.member = req.session.member;
-    next();
-  } else {
-    const html = `<script>
-                    alert("Admin page: Permission denied ");
-                    window.location.replace("/resto");
-                  </script>`;
-  }
-};
 
 restaurantController.checkSessions = (req, res) => {
   if (req.session?.member) {
@@ -131,13 +121,39 @@ restaurantController.checkSessions = (req, res) => {
   }
 };
 
-restaurantController.getAllRestaurants = (req, res) => {
+restaurantController.validateAdmin = (req, res, next) => {
+  if (req?.session?.member?.mb_type === "ADMIN") {
+    req.member = req.session.member;
+    next();
+  } else {
+    const html = `<script>
+              alert("Admin page: Permission denied !");
+              window.location.replace('/resto');
+              </script>`;
+    res.end(html);
+  }
+};
+
+restaurantController.getAllRestaurants = async (req, res) => {
   try {
     console.log(" GET cont/getAllRestaurants");
-    // barcha restaurantlarni dbdan chaqiramiz
-    res.render("all-restaurants");
+    const restaurant = new Restaurant();
+    const restaurants_data = await restaurant.getAllRestaurantsData();
+    res.render("all-restaurants", { restaurants_data: restaurants_data });
   } catch (err) {
     console.log("ERROR: cont/logout", err.message);
+    res.json({ state: "failed", message: err.message });
+  }
+};
+
+restaurantController.updateRestaurantByAdmin = async (req, res) => {
+  try {
+    console.log(" GET cont/updateRestaurantByAdmin");
+    const restaurant = new Restaurant();
+    const result = await restaurant.updateRestaurantByAdminData(req.body);
+    await res.json({ state: "success", data: result });
+  } catch (err) {
+    console.log("ERROR: cont/updateRestaurantByAdmin", err.message);
     res.json({ state: "failed", message: err.message });
   }
 };
