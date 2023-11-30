@@ -32,7 +32,7 @@ memberController.login = async (req, res) => {
   try {
     console.log("POST: cont/login");
     const data = req.body;
-    console.log("body::", req.body);
+    console.log("body:", req.body);
     const member = new Member();
     const result = await member.loginDate(data);
 
@@ -70,8 +70,7 @@ memberController.createToken = (result) => {
     assert.ok(token, Definer.token_err1);
     return token;
   } catch (err) {
-    console.log(" con.createToken");
-    res.json({ state: "fail", message: err.message });
+    throw err;
   }
 };
 
