@@ -50,7 +50,7 @@ memberController.login = async (req, res) => {
 };
 
 memberController.logout = (req, res) => {
-  console.log(" GET cont.logout");
+  console.log(" GET cont/logout");
   res.send("logout sahifasidasiz");
 };
 
@@ -71,5 +71,20 @@ memberController.createToken = (result) => {
   } catch (err) {
     console.log(" con.createToken");
     res.json({ state: "failed", message: err.message });
+  }
+};
+
+memberController.checkMyAuthentication = (req, res) => {
+  try {
+    console.log(" GET cont/checkMyAuthentication");
+    let token = req.cookies["access_token"];
+    console.log("token", token);
+
+    const member = token ? jwt.verify(token, process.env.SECRET_TOKEN) : null;
+    assert.ok(member, Definer.token_err2);
+
+    res.json({ state: "succeed", data: member });
+  } catch (err) {
+    throw err;
   }
 };
