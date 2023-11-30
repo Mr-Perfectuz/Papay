@@ -10,7 +10,8 @@ memberController.signup = async (req, res) => {
     console.log("POST: cont/signup");
     const data = req.body;
     console.log("body::", req.body);
-    (member = new Member()), (new_member = await member.signupData(data));
+    const member = new Member();
+    const new_member = await member.signupData(data);
 
     // passing the token
     const token = memberController.createToken(new_member);
@@ -22,7 +23,7 @@ memberController.signup = async (req, res) => {
 
     res.json({ state: "succeed", data: new_member });
   } catch (err) {
-    res.json({ state: "failed", message: err.message });
+    res.json({ state: "fail", message: err.message });
     console.log(err.message);
   }
 };
@@ -31,9 +32,9 @@ memberController.login = async (req, res) => {
   try {
     console.log("POST: cont/login");
     const data = req.body;
-    console.log("body::", req.body),
-      (member = new Member()),
-      (result = await member.loginDate(data));
+    console.log("body::", req.body);
+    const member = new Member();
+    const result = await member.loginDate(data);
 
     // passing the token
     const token = memberController.createToken(result);
@@ -45,7 +46,7 @@ memberController.login = async (req, res) => {
 
     res.json({ state: "succeed", data: result });
   } catch (err) {
-    res.json({ state: "failed", message: err.message });
+    res.json({ state: "fail", message: err.message });
   }
 };
 
@@ -70,7 +71,7 @@ memberController.createToken = (result) => {
     return token;
   } catch (err) {
     console.log(" con.createToken");
-    res.json({ state: "failed", message: err.message });
+    res.json({ state: "fail", message: err.message });
   }
 };
 
@@ -86,5 +87,18 @@ memberController.checkMyAuthentication = (req, res) => {
     res.json({ state: "succeed", data: member });
   } catch (err) {
     throw err;
+  }
+};
+
+memberController.getChosenMember = async (req, res) => {
+  try {
+    console.log(" GET cont/getChosenMember");
+    const id = req.params.id;
+    const member = new Member();
+    const result = await member.getChosenMemberData(id);
+    res.json({ state: "succeed", data: result });
+  } catch (err) {
+    console.log(" con.getChosenMember", err.message);
+    res.json({ state: "fail", message: err.message });
   }
 };
