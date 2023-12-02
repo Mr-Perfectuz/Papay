@@ -6,12 +6,20 @@ let productController = module.exports;
 
 productController.getAllProducts = async (req, res) => {
   try {
-    console.log("GET: cont/getAllProducts");
-  } catch (error) {
-    res.json({ state: "failed", message: err.message });
+    console.log("POST: cont/getAllProducts");
+
+    const product = new Product();
+    const result = await product.getAllProductsData(req.member, req.body);
+    res.json({ state: "succeed", data: result });
+  } catch (err) {
+    res.json({ state: "fail", message: err.message });
     console.log("ERROR, cont/getAllProducts", err.message);
   }
 };
+
+// *************************************
+//             BSSR RELATED ROUTER
+// *************************************
 
 productController.addNewProduct = async (req, res) => {
   try {
@@ -49,6 +57,6 @@ productController.updateChosenProduct = async (req, res) => {
     res.json({ state: "success", data: result });
   } catch (err) {
     console.log("ERROR, cont/updateChosenProduct", err.message);
-    res.json({ state: "failed", message: err.message });
+    res.json({ state: "fail", message: err.message });
   }
 };

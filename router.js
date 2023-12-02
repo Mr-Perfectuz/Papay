@@ -3,6 +3,7 @@
 const express = require("express");
 const router = express.Router();
 const memberController = require("./controllers/memberController");
+const productController = require("./controllers/productController");
 
 /*           REST API     */
 
@@ -15,6 +16,13 @@ router.get(
   "/member/:id",
   memberController.retreiveAuthMember,
   memberController.getChosenMember
+);
+
+// productga doir routerlar
+router.post(
+  "/products",
+  memberController.retreiveAuthMember,
+  productController.getAllProducts
 );
 
 // others

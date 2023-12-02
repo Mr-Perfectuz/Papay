@@ -1,5 +1,5 @@
 const MemberModel = require("../schema/member.model");
-const View = require("../modules/View");
+const View = require("./View");
 const Definer = require("../lib/mistake");
 const assert = require("assert");
 const bcrypt = require("bcryptjs");
