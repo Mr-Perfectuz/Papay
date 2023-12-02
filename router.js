@@ -25,7 +25,14 @@ router.post(
   productController.getAllProducts
 );
 
+router.get(
+  "/products/:id",
+  memberController.retreiveAuthMember,
+  productController.getChosenProduct
+);
+
 // others
+
 router.get("/menu", function (req, res) {
   res.send("Menu sahifadasiz");
 });

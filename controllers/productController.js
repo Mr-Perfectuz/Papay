@@ -16,6 +16,20 @@ productController.getAllProducts = async (req, res) => {
     console.log("ERROR, cont/getAllProducts", err.message);
   }
 };
+productController.getChosenProduct = async (req, res) => {
+  try {
+    console.log("GET: cont/getChosenProduct");
+
+    const product = new Product();
+    const id = req.params.id;
+    const result = await product.getChosenProductData(req.member, id);
+
+    res.json({ state: "succeed", data: result });
+  } catch (err) {
+    res.json({ state: "fail", message: err.message });
+    console.log("ERROR, cont/getChosenProduct", err.message);
+  }
+};
 
 // *************************************
 //             BSSR RELATED ROUTER

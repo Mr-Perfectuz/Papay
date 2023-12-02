@@ -38,6 +38,21 @@ class Product {
       throw error;
     }
   }
+  async getChosenProductData(member, id) {
+    try {
+      const auth_mb_id = shapeIntoMongoseObjectIdn(member?._id);
+      id = shapeIntoMongoseObjectIdn(id);
+      const result = await this.productModel
+        .aggregate([{ $match: { _id: id, product_status: "PROCESS" } }])
+        // toddo: check auth number product likes
+        .exec();
+      assert.ok(result, Definer.general_err1);
+      return result;
+    } catch (error) {
+      throw error;
+    }
+  }
+
   async getAllProductDataResto(member) {
     try {
       member._id = shapeIntoMongoseObjectIdn(member._id);
