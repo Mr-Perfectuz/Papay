@@ -2,6 +2,7 @@ const assert = require("assert");
 const { shapeIntoMongoseObjectIdn } = require("../lib/config");
 const ProductModel = require("../schema/product.model");
 const Definer = require("../lib/mistake");
+const Member = require("./Member");
 
 class Product {
   constructor() {
@@ -42,6 +43,11 @@ class Product {
     try {
       const auth_mb_id = shapeIntoMongoseObjectIdn(member?._id);
       id = shapeIntoMongoseObjectIdn(id);
+
+      if (member) {
+        const member_obj = new Member();
+        member_obj.viewChosenItemByMember(member, id, "product");
+      }
       const result = await this.productModel
         .aggregate([{ $match: { _id: id, product_status: "PROCESS" } }])
         // toddo: check auth number product likes
