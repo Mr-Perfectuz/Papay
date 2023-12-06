@@ -6,6 +6,24 @@ const Definer = require("../lib/mistake");
 
 let restaurantController = module.exports;
 
+restaurantController.getRestaurants = async (req, res) => {
+  try {
+    console.log(" GET cont/getRestaurants");
+    const data = req.query;
+    const restaurant = new Restaurant();
+    const result = await restaurant.getRestaurantsData(req.member, data);
+
+    await res.json({ state: "success", data: result });
+  } catch (err) {
+    console.log("ERROR: cont/getRestaurants", err.message);
+    res.json({ state: "fail", message: err.message });
+  }
+};
+
+// *************************************
+//             BSSR RELATED ROUTER
+// *************************************
+
 restaurantController.home = (req, res) => {
   try {
     console.log("GET: cont/home ");
@@ -34,7 +52,7 @@ restaurantController.getSignupMyRestaurant = async (req, res) => {
     console.log("GET: cont/getSignupMyRestaurant ");
     res.render("signup");
   } catch (err) {
-    res.json({ state: "failed", message: err.message });
+    res.json({ state: "fail", message: err.message });
     console.log("ERROR, cont/getSignupMyRestaurant", err.message);
   }
 };
@@ -57,7 +75,7 @@ restaurantController.signupProcess = async (req, res) => {
     req.session.member = result;
     res.redirect("/resto/products/menu");
   } catch (err) {
-    res.json({ state: "failed", message: err.message });
+    res.json({ state: "fail", message: err.message });
   }
 };
 
@@ -66,7 +84,7 @@ restaurantController.getLoginMyRestaurant = async (req, res) => {
     console.log("GET: cont/getLoginMyRestaurant ");
     res.render("login-page");
   } catch (err) {
-    res.json({ state: "failed", message: err.message });
+    res.json({ state: "fail", message: err.message });
     console.log("ERROR, cont/getLoginMyRestaurant", err.message);
   }
 };
@@ -85,7 +103,7 @@ restaurantController.loginProcess = async (req, res) => {
     });
   } catch (err) {
     console.log("ERROR: cont/loginProcess", err.message);
-    res.json({ state: "failed", message: err.message });
+    res.json({ state: "fail", message: err.message });
   }
 };
 
@@ -97,7 +115,7 @@ restaurantController.logout = (req, res) => {
     });
   } catch (error) {
     console.log("ERROR: cont/logout", err.message);
-    res.json({ state: "failed", message: err.message });
+    res.json({ state: "fail", message: err.message });
   }
 };
 
@@ -115,7 +133,7 @@ restaurantController.validateAuthRestaurant = (req, res, next) => {
 
 restaurantController.checkSessions = (req, res) => {
   if (req.session?.member) {
-    res.json({ state: "succeed", data: req.session.member });
+    res.json({ state: "success", data: req.session.member });
   } else {
     res.json({ state: "fail", message: "You are not authenticated" });
   }
@@ -142,7 +160,7 @@ restaurantController.getAllRestaurants = async (req, res) => {
     res.render("all-restaurants", { restaurants_data: restaurants_data });
   } catch (err) {
     console.log("ERROR: cont/logout", err.message);
-    res.json({ state: "failed", message: err.message });
+    res.json({ state: "fail", message: err.message });
   }
 };
 
@@ -154,6 +172,6 @@ restaurantController.updateRestaurantByAdmin = async (req, res) => {
     await res.json({ state: "success", data: result });
   } catch (err) {
     console.log("ERROR: cont/updateRestaurantByAdmin", err.message);
-    res.json({ state: "failed", message: err.message });
+    res.json({ state: "fail", message: err.message });
   }
 };
