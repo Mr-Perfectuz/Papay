@@ -2,6 +2,7 @@ const assert = require("assert");
 const MemberModel = require("../schema/member.model");
 const Definer = require("../lib/mistake");
 const { shapeIntoMongoseObjectIdn } = require("../lib/config");
+const Member = require("./Member");
 
 class Restaurant {
   constructor() {
@@ -24,10 +25,12 @@ class Restaurant {
           aggregationQuery.push({ $match: match });
           aggregationQuery.push({ $sample: { size: data.limit } });
           break;
+
         case "random":
           aggregationQuery.push({ $match: match });
           aggregationQuery.push({ $sample: { size: data.limit } });
           break;
+
         default:
           aggregationQuery.push({ $match: match });
           const sort = { [data.order]: -1 };
@@ -39,12 +42,37 @@ class Restaurant {
       //TODO member liked target
 
       const result = await this.memberModel.aggregate(aggregationQuery).exec();
+
       assert.ok(result, Definer.general_err1);
       return result;
     } catch (error) {
       throw error;
     }
   }
+
+  async getChosenRestaurantData(member, id) {
+    try {
+      id = shapeIntoMongoseObjectIdn(id);
+
+      // increase view if member has not seen the target before
+      if (member) {
+        const member_obj = new Member();
+        await member_obj.viewChosenItemByMember(member, id, "member");
+      }
+
+      const result = await this.memberModel
+        .findOne({
+          _id: id,
+          mb_status: "ACTIVE",
+        })
+        .exec();
+      assert.ok(result, Definer.general_err1);
+      return result;
+    } catch (error) {
+      throw error;
+    }
+  }
+
   // *************************************
   //             BSSR RELATED ROUTER
   // *************************************
@@ -57,7 +85,7 @@ class Restaurant {
         })
         .exec();
 
-      assert(result, Definer.restaurant_err1);
+      assert.ok(result, Definer.general_err1);
       return result;
     } catch (error) {
       throw error;

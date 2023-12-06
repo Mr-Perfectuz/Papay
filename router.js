@@ -39,6 +39,12 @@ router.get(
   restaurantController.getRestaurants
 );
 
+router.get(
+  "/restaurants/:id",
+  memberController.retreiveAuthMember,
+  restaurantController.getChosenRestaurant
+);
+
 // others
 
 router.get("/menu", function (req, res) {
