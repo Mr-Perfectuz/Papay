@@ -24,6 +24,7 @@ class Restaurant {
           match["mb_top"] = "Y";
           aggregationQuery.push({ $match: match });
           aggregationQuery.push({ $sample: { size: data.limit } });
+
           break;
 
         case "random":
@@ -37,8 +38,11 @@ class Restaurant {
           aggregationQuery.push({ $sort: sort });
           break;
       }
+
       aggregationQuery.push({ $skip: (data.page - 1) * data.limit });
       aggregationQuery.push({ $limit: data.limit });
+
+      // console.log("aggregationQuery::", aggregationQuery);
       //TODO member liked target
 
       const result = await this.memberModel.aggregate(aggregationQuery).exec();

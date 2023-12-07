@@ -53,6 +53,12 @@ router.post(
   orderController.createOrder
 );
 
+router.get(
+  "/orders",
+  memberController.retreiveAuthMember,
+  orderController.getMyOrders
+);
+
 // others
 
 router.get("/menu", function (req, res) {

@@ -90,5 +90,45 @@ class Order {
       throw new Error(Definer.order_err2);
     }
   }
+
+  async getMyOrdersData(member, query) {
+    try {
+      console.log("POST: cont/getMyOrdersData");
+      const mb_id = shapeIntoMongoseObjectIdn(member._id);
+      let order_status = query.status.toUpperCase();
+      console.log("order_status", order_status);
+      let matches = { mb_id: mb_id, order_status: order_status };
+
+      const result = await this.orderModel
+        .aggregate([
+          { $match: matches },
+          { $sort: { createdAt: -1 } },
+          {
+            $lookup: {
+              from: "orderitems",
+              localField: "_id",
+              foreignField: "order_id",
+              as: "order_items",
+            },
+          },
+          {
+            $lookup: {
+              from: "products",
+              localField: "order_items.product_id",
+              foreignField: "_id",
+              as: "product_data",
+            },
+          },
+        ])
+        .exec();
+
+      console.log("result", result);
+      // assert.ok(result, Definer.order_err2);
+      return result;
+    } catch (err) {
+      throw err;
+      // throw new Error(Definer.order_err2);
+    }
+  }
 }
 module.exports = Order;
