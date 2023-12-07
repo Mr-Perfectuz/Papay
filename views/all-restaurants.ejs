@@ -38,25 +38,31 @@
 
               </thead>
 
-              <tbody style="background: #fff;">
-                <td>1</td>
-                <td>Texas De Brasil</td>
-                <td>010234324333</td>
-                <td style="width: 13%;">
-                <label class="switch">
-                  <input class="input" type="checkbox" name="mb_top" >
-                  <span class="slider round"></span>
-                </label></td>
+              <% restaurants_data.map(function(value, key) { %>
+                <tbody style="background: #fff;">
+                  <td> <%= key + 1 %></td>
+                  <td><%= value.mb_nick %></td>
+                  <td><%= value.mb_phone %></td>
+                  <td style="width: 13%;">
+                  <label class="switch">
+                    <input class="mb_top" type="checkbox" id="<%= value._id %>"
+                    <%= value.mb_top === "Y" ? 'checked' : "" %> />
+                    <span class="slider round"></span>
+                  </label></td>
 
-                <td style="width: 13%;">
-                  <select class="spec_select mb_select ">
-                    <option value="ONPAUSE" > ONPAUSE</option>
-                    <option value="PROCESS"> PROCESS</option>
-                    <option value="DELETED" > DELETED</option>
-                  </select>
-                </td>
+                  <td style="width: 13%;">
 
-              </tbody>
+                    <select class="mb_status spec_select " id="<%= value._id %>">
+                      <option value="ONPAUSE" <%= value.mb_status === "ONPAUSE" ? 'selected' : "" %> >ONPAUSE</option>
+                      <option value="ACTIVE"  <%= value.mb_status === "ACTIVE" ? 'selected' : "" %> >ACTIVE</option>
+                      <option value="DELETED" <%= value.mb_status === "DELETED" ? 'selected' : "" %> > DELETED</option>
+                    </select>
+                  </td>
+
+                </tbody>
+              <% }); %> %>
+
+
 
             </table>
 
@@ -66,6 +72,35 @@
     </div>
 
   </div>
+
+  <script>
+
+$(function() {
+  $(".mb_top").on('change', function(e){
+      const id = e.target.id;
+      const mb_top = e.target.checked ? 'Y' : 'N';
+
+      axios.post('/resto/all-restaurant/edit', {id: id, mb_top: mb_top}).then(response =>{
+        const result = response.data;
+        if(result.state === "success" ) alert("successfully updated");
+        else alert(result.message);
+      }).catch(err => console.log(err));
+    })
+
+  $(".mb_status").on('change', function(e){
+      const id = e.target.id;
+      const mb_status =  $(`#${id}.mb_status`).val();
+      console.log("mb_status:", mb_status);
+
+      axios.post('/resto/all-restaurant/edit', {id: id, mb_status: mb_status}).then(response =>{
+        const result = response.data;
+        if(result.state === "success" ) alert("successfully updated");
+        else alert(result.message);
+      }).catch(err => console.log(err));
+    })
+})
+
+  </script>
 
 </body>
 <%- include('includes/footer') %>

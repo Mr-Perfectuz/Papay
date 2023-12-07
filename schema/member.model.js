@@ -23,7 +23,6 @@ const memberSchema = new mongoose.Schema(
     mb_type: {
       type: String,
       required: false,
-      default: "ACTIVE",
       default: "USER",
       enum: {
         values: member_type_enums,
