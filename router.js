@@ -59,6 +59,12 @@ router.get(
   orderController.getMyOrders
 );
 
+router.post(
+  "/orders",
+  memberController.retreiveAuthMember,
+  orderController.editChosenOrder
+);
+
 // others
 
 router.get("/menu", function (req, res) {

@@ -113,7 +113,8 @@ memberController.retreiveAuthMember = (req, res, next) => {
     next();
   }
 };
-memberController.getMyOrders = (req, res) => {
+
+memberController.getMyOrders = async (req, res) => {
   try {
     let token = req.cookies["access_token"];
     req.member = token ? jwt.verify(token, process.env.SECRET_TOKEN) : null;
