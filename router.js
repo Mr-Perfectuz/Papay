@@ -6,6 +6,9 @@ const memberController = require("./controllers/memberController");
 const productController = require("./controllers/productController");
 const restaurantController = require("./controllers/restaurantController");
 const orderController = require("./controllers/orderController");
+const communityController = require("./controllers/communityController");
+const uploader_community = require("./utils/uploadMulter")("community");
+const uploader_member = require("./utils/uploadMulter")("members");
 
 /*           REST API     */
 
@@ -65,14 +68,24 @@ router.post(
   orderController.editChosenOrder
 );
 
+// community related reouters
+
+router.post(
+  "/community/image",
+  uploader_community.single("community_image"),
+  communityController.imageInsertion
+);
+
+router.post(
+  "/community/create",
+  memberController.retreiveAuthMember,
+  communityController.createArticle
+);
+
 // others
 
 router.get("/menu", function (req, res) {
   res.send("Menu sahifadasiz");
-});
-
-router.get("/community", (req, res) => {
-  res.send("Jamiyat sahifadasiz");
 });
 
 module.exports = router;
