@@ -82,6 +82,12 @@ router.post(
   communityController.createArticle
 );
 
+router.get(
+  "/community/articles",
+  memberController.retreiveAuthMember,
+  communityController.getMemberArticles
+);
+
 // others
 
 router.get("/menu", function (req, res) {
