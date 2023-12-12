@@ -133,6 +133,7 @@ class Order {
 
   async editChosenOrderData(member, data) {
     try {
+      console.log("POST: cont/editChosenOrderData");
       const mb_id = shapeIntoMongoseObjectIdn(member._id);
       const order_id = shapeIntoMongoseObjectIdn(data.order_id);
       const order_status = data.order_status.toUpperCase();

@@ -63,7 +63,7 @@ router.get(
 );
 
 router.post(
-  "/orders",
+  "/orders/edit",
   memberController.retreiveAuthMember,
   orderController.editChosenOrder
 );
