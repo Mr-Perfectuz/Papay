@@ -7,6 +7,7 @@ const productController = require("./controllers/productController");
 const restaurantController = require("./controllers/restaurantController");
 const orderController = require("./controllers/orderController");
 const communityController = require("./controllers/communityController");
+const followController = require("./controllers/followController");
 const uploader_community = require("./utils/uploadMulter")("community");
 const uploader_member = require("./utils/uploadMulter")("members");
 
@@ -96,6 +97,14 @@ router.get(
   "/community/single-article/:art_id",
   memberController.retreiveAuthMember,
   communityController.getChosenArticles
+);
+
+// following related reouters
+
+router.post(
+  "/follow/subscribe/",
+  memberController.retreiveAuthMember,
+  followController.subscribe
 );
 
 // others
