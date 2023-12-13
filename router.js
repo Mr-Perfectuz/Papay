@@ -87,6 +87,11 @@ router.get(
   memberController.retreiveAuthMember,
   communityController.getMemberArticles
 );
+router.get(
+  "/community/target",
+  memberController.retreiveAuthMember,
+  communityController.getArticles
+);
 
 // others
 

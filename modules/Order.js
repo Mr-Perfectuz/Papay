@@ -141,9 +141,9 @@ class Order {
       const result = await this.orderModel.findOneAndUpdate(
         { mb_id: mb_id, _id: order_id },
         { order_status: order_status },
-        { runValidators: true, lean: true, returnDocument: "after" }
+        { runValidators: true, lean: true, returnDocument: "before" }
       );
-      console.log("result", result);
+      // console.log("result", result);
       assert.ok(result, Definer.order_err3);
       return result;
     } catch (err) {
