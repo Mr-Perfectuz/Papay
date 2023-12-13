@@ -92,6 +92,11 @@ router.get(
   memberController.retreiveAuthMember,
   communityController.getArticles
 );
+router.get(
+  "/community/single-article/:art_id",
+  memberController.retreiveAuthMember,
+  communityController.getChosenArticles
+);
 
 // others
 

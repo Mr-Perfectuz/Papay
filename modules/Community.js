@@ -7,6 +7,7 @@ const BoArticleModel = require("../schema/bo_article.model");
 const ProductModel = require("../schema/product.model");
 const ViewModel = require("../schema/view.model");
 const assert = require("assert");
+const Member = require("./Member");
 
 class Community {
   constructor(mb_id) {
@@ -99,6 +100,28 @@ class Community {
         .exec();
 
       assert.ok(result, Definer.article_err3);
+      return result;
+    } catch (mongo_err) {
+      console.log("mongo_err:", mongo_err);
+      throw new Error(Definer.auth_err1);
+    }
+  }
+
+  async getChosenArticlesData(member, art_id) {
+    try {
+      const auth_mb_id = shapeIntoMongoseObjectIdn(member?._id);
+      art_id = shapeIntoMongoseObjectIdn(art_id);
+
+      // increase view if member has not seen the target before
+      if (member) {
+        const member_obj = new Member();
+        await member_obj.viewChosenItemByMember(member, art_id, "community");
+      }
+
+      const result = await this.boArticleModel
+        .aggregate([{ $match: { _id: art_id, art_status: "active" } }]) // !
+        .exec();
+      assert.ok(result, Definer.article_err4);
       return result;
     } catch (mongo_err) {
       console.log("mongo_err:", mongo_err);
