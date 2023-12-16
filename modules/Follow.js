@@ -97,9 +97,10 @@ class Follow {
   async getMemberFollowingsData(inquery) {
     try {
       console.log("inquery::", inquery);
-      const subscriber_id = shapeIntoMongoseObjectIdn(inquery.member_id);
+      const subscriber_id = shapeIntoMongoseObjectIdn(inquery.mb_id);
       let page = inquery.page * 1;
       let limit = inquery.limit * 1;
+      console.log("subscriber_id::", subscriber_id);
 
       const result = await this.followModel.aggregate([
         { $match: { subscriber_id: subscriber_id } },
