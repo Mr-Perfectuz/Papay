@@ -106,6 +106,11 @@ router.post(
   memberController.retreiveAuthMember,
   followController.subscribe
 );
+router.post(
+  "/follow/unsubscribe/",
+  memberController.retreiveAuthMember,
+  followController.unsubscribe
+);
 
 // others
 

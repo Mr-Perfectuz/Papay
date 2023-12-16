@@ -43,6 +43,7 @@ class Follow {
         follow_id: follow_id,
         subscriber_id: subscriber_id,
       });
+
       return await new_follow.save();
     } catch (mongo_err) {
       console.log("mongo_err", mongo_err);
@@ -67,9 +68,30 @@ class Follow {
           )
           .exec();
       }
+      return true;
     } catch (mongo_err) {
       console.log("mongo_err", mongo_err);
       throw new Error(Definer.follow_err2);
+    }
+  }
+  async unsubscribeData(member, data) {
+    try {
+      const subscriber_id = shapeIntoMongoseObjectIdn(member._id);
+      const follow_id = shapeIntoMongoseObjectIdn(data.mb_id);
+
+      const result = await this.followModel.findOneAndDelete({
+        follow_id: follow_id,
+        subscriber_id: subscriber_id,
+      });
+
+      assert.ok(result, Definer.general_err1);
+
+      await this.modifyMemberFollowCounts(follow_id, "subscriber_change", -1);
+      await this.modifyMemberFollowCounts(subscriber_id, "follow_change", -1);
+
+      return true;
+    } catch (err) {
+      throw err;
     }
   }
 }
