@@ -124,3 +124,23 @@ memberController.getMyOrders = async (req, res) => {
     next();
   }
 };
+memberController.likeMemberChosen = async (req, res) => {
+  try {
+    console.log(" POST cont/likeMemberCHosen");
+    assert.ok(req.member, Definer.token_err3);
+
+    const member = new Member();
+    let like_ref_id = req.body.like_ref_id;
+    let group_type = req.body.group_type;
+    const result = await member.likeCHosenItemByMember(
+      req.member,
+      like_ref_id,
+      group_type
+    );
+
+    res.json({ state: "success", data: result });
+  } catch (err) {
+    console.log(" cont/likeMemberCHosen", err.message);
+    res.json({ state: "fail", message: err.message });
+  }
+};

@@ -1,4 +1,5 @@
 const MemberModel = require("../schema/member.model");
+const Like = require("./Like");
 const View = require("./View");
 const Definer = require("../lib/mistake");
 const assert = require("assert");
@@ -23,7 +24,7 @@ class Member {
         result = await new_member.save();
       } catch (mongo_error) {
         console.log(mongo_error);
-        throw new Error(Definer.auth_err1);
+        throw new Error(Definer.mongo_val_error);
       }
       result.mb_password = "";
       return result;
@@ -64,7 +65,6 @@ class Member {
 
       if (member) {
         await this.viewChosenItemByMember(member, id, "member");
-        // check auth member liked the chosen target
 
         aggregateQuery.push(lookup_auth_following(auth_mb_id, "members"));
       }
@@ -99,6 +99,38 @@ class Member {
         assert.ok(result, Definer.general_err1);
       }
       return true;
+    } catch (err) {
+      throw err;
+    }
+  }
+  async likeCHosenItemByMember(member, like_ref_id, group_type) {
+    try {
+      like_ref_id = shapeIntoMongoseObjectIdn(like_ref_id);
+      const mb_id = shapeIntoMongoseObjectIdn(member._id);
+
+      const like = new Like(mb_id);
+
+      // validation needed
+      const isValid = await like.validateTargetChosen(like_ref_id, group_type);
+      console.log("isValid::", isValid);
+      assert.ok(isValid, Definer.general_err2);
+
+      // logged user has seen target before
+      const doesExist = await like.checkLikeExisstance(like_ref_id);
+      console.log("doesExist:", doesExist);
+
+      let data = doesExist
+        ? await like.removeMemberLike(like_ref_id, group_type)
+        : await like.insertMemberLike(like_ref_id, group_type);
+
+      assert.ok(data, Definer.general_err1);
+
+      const result = {
+        like_group: data.like_group,
+        like_ref_id: data.like_ref_id,
+        like_status: doesExist ? 0 : 1,
+      };
+      return result;
     } catch (err) {
       throw err;
     }
