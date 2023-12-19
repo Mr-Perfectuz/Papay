@@ -1,6 +1,7 @@
 const {
   shapeIntoMongoseObjectIdn,
   board_id_enum_list,
+  lookup_auth_liked,
 } = require("../lib/config");
 const Definer = require("../lib/mistake");
 const BoArticleModel = require("../schema/bo_article.model");
@@ -56,7 +57,7 @@ class Community {
             },
           },
           { $unwind: "$member_data" },
-          // todo check auth member liked the chosen target
+          lookup_auth_liked(auth_mb_id),
         ])
         .exec();
       assert.ok(result, Definer.article_err2);
@@ -95,7 +96,7 @@ class Community {
             },
           },
           { $unwind: "$member_data" },
-          // todo check auth member liked the chosen target
+          lookup_auth_liked(auth_mb_id),
         ])
         .exec();
 
