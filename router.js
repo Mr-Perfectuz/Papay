@@ -113,6 +113,12 @@ router.post(
 );
 router.get("/follow/followings/", followController.getMemberFollowings);
 
+router.get(
+  "/follow/followers/",
+  memberController.retreiveAuthMember,
+  followController.getMemberFollowers
+);
+
 // others
 
 router.get("/menu", function (req, res) {
