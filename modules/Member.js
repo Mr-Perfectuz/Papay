@@ -104,6 +104,7 @@ class Member {
       throw err;
     }
   }
+
   async likeCHosenItemByMember(member, like_ref_id, group_type) {
     try {
       like_ref_id = shapeIntoMongoseObjectIdn(like_ref_id);
