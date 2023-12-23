@@ -4,6 +4,7 @@ const app = express();
 const router = require("./router");
 const router_bssr = require("./router_bssr");
 const cookieParser = require("cookie-parser");
+const cors = require("cors");
 
 let session = require("express-session");
 const MongoDBStore = require("connect-mongodb-session")(session);
@@ -16,11 +17,20 @@ var store = new MongoDBStore({
 
 //1 Kirish codlari
 app.use(express.static("public"));
+app.use("/uploads", express.static(__dirname + "/uploads"));
 //json formatdagi data ni objectga exchage qilish
 app.use(express.json());
 // html formdan qabul qilinadigan data larni serverga kiritish uchun
 app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 app.use(cookieParser());
+
+app.use(
+  cors({
+    credentials: true,
+    origin: true,
+  })
+);
 
 //2 Session codlari
 app.use(

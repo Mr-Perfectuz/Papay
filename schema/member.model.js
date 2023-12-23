@@ -41,10 +41,12 @@ const memberSchema = new mongoose.Schema(
     mb_adress: {
       type: String,
       required: false,
+      default: "",
     },
     mb_description: {
       type: String,
       required: false,
+      default: "",
     },
     mb_image: {
       type: String,
