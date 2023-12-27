@@ -15,10 +15,9 @@ memberController.signup = async (req, res) => {
 
     // passing the token
     const token = memberController.createToken(new_member);
-    x;
     res.cookie("access_token", token, {
       maxAge: 6 * 3600 * 1000,
-      httpOnly: true,
+      httpOnly: false,
     });
 
     res.json({ state: "success", data: new_member });
@@ -41,7 +40,7 @@ memberController.login = async (req, res) => {
 
     res.cookie("access_token", token, {
       maxAge: 6 * 3600 * 1000,
-      httpOnly: true, // TEST HERE
+      httpOnly: false, // TEST HERE
     });
 
     res.json({ state: "success", data: result });
@@ -52,7 +51,7 @@ memberController.login = async (req, res) => {
 
 memberController.logout = (req, res) => {
   console.log(" GET cont/logout");
-  res.cookie("access_token", null, { maxAge: 0, httpOnly: true });
+  res.cookie("access_token", null, { maxAge: 0, httpOnly: false });
   res.json({ state: "success", data: "Logout successfully ! " });
 };
 
