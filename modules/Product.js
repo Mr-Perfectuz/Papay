@@ -38,6 +38,8 @@ class Product {
         ])
         .exec();
 
+      console.log(result);
+
       assert.ok(result, Definer.general_err1);
       return result;
     } catch (error) {
@@ -58,7 +60,7 @@ class Product {
       const result = await this.productModel.aggregate([
         { $match: { _id: id, product_status: "PROCESS" } },
       ]);
-      lookup_auth_liked(auth_mb_id).exec();
+      lookup_auth_liked(auth_mb_id);
       assert.ok(result, Definer.general_err1);
       return result;
     } catch (error) {
@@ -81,6 +83,7 @@ class Product {
 
   async addNewProductData(data, member) {
     try {
+      console.log("addNewProductData");
       data.restaurant_mb_id = shapeIntoMongoseObjectIdn(member._id);
 
       const new_product = new this.productModel(data);
@@ -97,7 +100,7 @@ class Product {
     try {
       id = shapeIntoMongoseObjectIdn(id);
       mb_id = shapeIntoMongoseObjectIdn(mb_id);
-      const result = this.productModel
+      const result = await this.productModel
         .findByIdAndUpdate(
           {
             _id: id,
