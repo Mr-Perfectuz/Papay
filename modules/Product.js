@@ -62,7 +62,7 @@ class Product {
       ]);
       lookup_auth_liked(auth_mb_id);
       assert.ok(result, Definer.general_err1);
-      return result;
+      return result[0];
     } catch (error) {
       throw error;
     }
