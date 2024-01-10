@@ -29,6 +29,12 @@ router.post(
   memberController.retreiveAuthMember,
   memberController.likeMemberChosen
 );
+router.post(
+  "/member/update",
+  memberController.retreiveAuthMember,
+  uploader_member.single("mb_image"),
+  memberController.updateMember
+);
 
 // productga doir routerlar
 router.post(
