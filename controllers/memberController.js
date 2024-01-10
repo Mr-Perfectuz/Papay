@@ -15,10 +15,9 @@ memberController.signup = async (req, res) => {
 
     // passing the token
     const token = memberController.createToken(new_member);
-
     res.cookie("access_token", token, {
       maxAge: 6 * 3600 * 1000,
-      httpOnly: true,
+      httpOnly: false,
     });
 
     res.json({ state: "success", data: new_member });
@@ -41,7 +40,7 @@ memberController.login = async (req, res) => {
 
     res.cookie("access_token", token, {
       maxAge: 6 * 3600 * 1000,
-      httpOnly: true, // TEST HERE
+      httpOnly: false, // TEST HERE
     });
 
     res.json({ state: "success", data: result });
@@ -52,7 +51,7 @@ memberController.login = async (req, res) => {
 
 memberController.logout = (req, res) => {
   console.log(" GET cont/logout");
-  res.cookie("access_token", null, { maxAge: 0, httpOnly: true });
+  res.cookie("access_token", null, { maxAge: 0, httpOnly: false });
   res.json({ state: "success", data: "Logout successfully ! " });
 };
 
@@ -111,5 +110,57 @@ memberController.retreiveAuthMember = (req, res, next) => {
   } catch (err) {
     console.log(" cont/getChosenMember", err.message);
     next();
+  }
+};
+
+memberController.getMyOrders = async (req, res) => {
+  try {
+    let token = req.cookies["access_token"];
+    req.member = token ? jwt.verify(token, process.env.SECRET_TOKEN) : null;
+    next();
+  } catch (err) {
+    console.log(" cont/getChosenMember", err.message);
+    next();
+  }
+};
+memberController.likeMemberChosen = async (req, res) => {
+  try {
+    console.log(" POST cont/likeMemberCHosen");
+    assert.ok(req.member, Definer.token_err3);
+
+    const member = new Member();
+    let like_ref_id = req.body.like_ref_id;
+    let group_type = req.body.group_type;
+    const result = await member.likeCHosenItemByMember(
+      req.member,
+      like_ref_id,
+      group_type
+    );
+
+    res.json({ state: "success", data: result });
+  } catch (err) {
+    console.log(" cont/likeMemberCHosen", err.message);
+    res.json({ state: "fail", message: err.message });
+  }
+};
+
+memberController.updateMember = async (req, res) => {
+  try {
+    console.log(" POST cont/updateMember");
+    console.log(req.body);
+    console.log(req.file);
+    assert.ok(req.member, Definer.auth_err3);
+
+    const member = new Member();
+    const result = await member.updateMemberData(
+      req.member?._id,
+      req.body,
+      req.file
+    );
+
+    res.json({ state: "success", data: result });
+  } catch (err) {
+    console.log(" cont/updateMember", err.message);
+    res.json({ state: "fail", message: err.message });
   }
 };

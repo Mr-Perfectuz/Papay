@@ -16,6 +16,7 @@ productController.getAllProducts = async (req, res) => {
     console.log("ERROR, cont/getAllProducts", err.message);
   }
 };
+
 productController.getChosenProduct = async (req, res) => {
   try {
     console.log("GET: cont/getChosenProduct");
@@ -42,6 +43,7 @@ productController.addNewProduct = async (req, res) => {
 
     const product = new Product();
     let data = req.body;
+    // data.product_collection = req.body.product_collection; // Add this line
     data.product_images = req.files.map((ele) => {
       return ele.path;
     });
@@ -53,6 +55,7 @@ productController.addNewProduct = async (req, res) => {
       window.location.replace('/resto/products/menu');
     </script>`;
     res.end(html);
+    // res.json({ state: "success", data: result });
   } catch (err) {
     console.log("ERROR, cont/addNewProduct", err.message);
   }
