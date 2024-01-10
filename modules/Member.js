@@ -159,6 +159,7 @@ class Member {
           returnDocument: "after",
         })
         .exec();
+      console.log("result:", result);
       assert.ok(result, Definer.general_err1);
       return result;
     } catch (error) {
